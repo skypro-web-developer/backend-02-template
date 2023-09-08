@@ -24,7 +24,7 @@ const server = http.createServer((request, response) => {
   }
   if (request.url === '/') {
     response.statusCode = 200;
-    (response.header = 'Content-Type'), 'text/plain';
+    response.header = 'Content-Type: text/plain';
     response.write('Hello, world!!!');
     response.end();
     return;
@@ -59,5 +59,5 @@ const server = http.createServer((request, response) => {
   }
 });
 server.listen(3003, () => {
-  console.log('server listening on');
+  console.log('server listening on http://127.0.0.1:3003');
 });
