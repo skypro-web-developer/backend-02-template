@@ -1,12 +1,63 @@
 const http = require('http');
+const getUsers = require('./modules/users');
+
+// Написать обработчик запроса:
+// - Ответом на запрос `?hello=<name>` должна быть **строка** "Hello, <name>.", код ответа 200
+// - Если параметр `hello` указан, но не передано `<name>`, то ответ **строка** "Enter a name", код ответа 400
+// - Ответом на запрос `?users` должен быть **JSON** с содержимым файла `data/users.json`, код ответа 200
+// - Если никакие параметры не переданы, то ответ **строка** "Hello, World!", код ответа 200
+// - Если переданы какие-либо другие параметры, то пустой ответ, код ответа 500
 
 const server = http.createServer((request, response) => {
+  const url = new URL(request.url, 'http://127.0.0.1');
+  console.log(url);
+  console.log(url.searchParams);
 
-    // Написать обработчик запроса:
-    // - Ответом на запрос `?hello=<name>` должна быть **строка** "Hello, <name>.", код ответа 200
-    // - Если параметр `hello` указан, но не передано `<name>`, то ответ **строка** "Enter a name", код ответа 400
-    // - Ответом на запрос `?users` должен быть **JSON** с содержимым файла `data/users.json`, код ответа 200
-    // - Если никакие параметры не переданы, то ответ **строка** "Hello, World!", код ответа 200
-    // - Если переданы какие-либо другие параметры, то пустой ответ, код ответа 500
+  if (request.url === '/?users') {
+    response.statusCode = 200;
+    response.statusMessage = 'OK';
+    response.header = 'Content-Type: application/json';
+    response.write(getUsers());
+    response.end();
 
+    return;
+  }
+  if (request.url === '/') {
+    response.statusCode = 200;
+    (response.header = 'Content-Type'), 'text/plain';
+    response.write('Hello, world!!!');
+    response.end();
+    return;
+  }
+
+  const params = url.searchParams;
+
+  if (params.has('hello')) {
+    const name = params.get('hello');
+    if (name) {
+      response.statusCode = 200;
+      response.statusMessage = 'OK';
+      response.header = 'Content-Type: text/plain';
+      response.write(`Hello, ${name}!`);
+      response.end();
+      return;
+    } else {
+      response.statusCode = 400;
+      response.header = 'Content-Type: text/plain';
+      response.write('Enter a name.');
+      console.log('status: ' + response.statusCode);
+      response.end();
+      return;
+    }
+  } else {
+    response.statusCode = 500;
+    response.statusMessage = 'OK';
+    response.header = 'Content-Type: text/plain';
+    response.write(' ');
+    response.end();
+    return;
+  }
+});
+server.listen(3003, () => {
+  console.log('server listening on');
 });
