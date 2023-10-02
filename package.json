@@ -1,15 +1,22 @@
 {
   "name": "@skypro-web-developer/backend-02-template",
   "version": "1.0.0",
-  "description": "Шаблон для выполнения второго домашнего задания",
+  "description": "Выполнение домашнего задания: Знакомство с бэкенд-разработкой",
   "private": true,
   "main": "src/index.js",
   "scripts": {
-		"start": "node src/index.js",
-		"dev": "nodemon src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "author": "",
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.3"
   }
 }

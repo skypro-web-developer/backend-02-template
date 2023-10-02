@@ -1,55 +1,41 @@
-const http = require("http");
-const getUsers = require("./modules/users");
-const hostname = "http://127.0.0.1";
-const port = 3003;
+const express = require("express");
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const userRouter = require("./routes/users");
+const bookRouter = require("./routes/books");
+const logger = require("./middlewares/logger");
 
-const server = http.createServer((request, response) => {
-  const url = new URL(request.url, hostname);
-  const params = url.searchParams;
+dotenv.config();
 
-  // если параметры переданы
-  if (params.toString() !== "") {
-    // строка поиска не пуста
-    if (params.has("hello")) {
-      //есть ли в запросе параметр: "hello" (вернет Boolean)
-      const name = params.get("hello"); // возвращаем первое значение, связанное с заданным параметром поиска
-      if (name) {
-        response.status = 200;
-        response.header = "Content-Type: text/plain";
-        response.write(`Hello, ${name}.`);
-        response.end();
-        return;
-      } else {
-        response.status = 400;
-        response.header = "Content-Type: text/plain";
-        response.write("Enter a name");
-        response.end();
-        return;
-      }
-    } else if (params.has("users")) {
-      response.status = 200;
-      response.statusMessage = "OK";
-      response.header = "Content-Type: application/json";
-      response.write(getUsers());
-      response.end();
-      return;
-    } else {
-      response.status = 500;
-      response.header = "Content-Type: text/plain";
-      response.write("");
-      response.end();
-      return;
-    }
-  }
+const {
+  PORT = 3000,
+  API_URL = "http://127.0.0.1",
+  MONGO_URL = "mongodb://127.0.0.1:27017/library",
+} = process.env;
 
-  // никакие параметры не переданы
-  response.status = 200;
-  response.statusMessage = "OK";
-  response.header = "Content-Type: text/plain";
-  response.write("Hello, world!");
-  response.end();
-});
+mongoose
+  .connect(MONGO_URL)
+  .then(() => {
+    console.log("Connected to MongoDb");
+  })
+  .catch((error) => handleError(error));
 
-server.listen(port, () => {
-  console.log(`Сервер запущен по адресу ${hostname}:${port}`);
+const welcomeToLibrary = (request, response) => {
+  response.status(200);
+  response.send("Welcome to library!");
+};
+
+const app = express();
+
+app.get("/", welcomeToLibrary);
+app.use(cors());
+app.use(logger);
+app.use(bodyParser.json());
+app.use(userRouter);
+app.use(bookRouter);
+
+app.listen(PORT, () => {
+  console.log(`Сервер запущен по адресу ${API_URL}:${PORT}`);
 });
