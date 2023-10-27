@@ -1,34 +1,66 @@
 const http = require("http");
-// const getUsers = require('./modules/users')
-const fs = require("fs");
-const path = require("path");
-
-const getUsers = () => {
-  const filePath = path.join(__dirname, "./data/users.js");
-  return fs.readFileSync(filePath);
-};
-
+const url = require("node:url");
+const getUsers = require("./modules/users");
 
 const hostname = "127.0.0.1";
 const port = 3003;
+
 const server = http.createServer((req, res) => {
-  if (req.url === "/users") {
-    res.status = 200;
+  const myURL = new URL(req.url, "http://127.0.0.1");
+  const query = myURL.searchParams;
+
+  if (query.has("users")) {
+    res.statusCode = 200;
     res.statusMessage = "OK";
     res.setHeader("Content-Type", "application/json");
-    res.write = {};
-    res.end();
+    res.write = getUsers();
+    res.end(getUsers());
     return;
+  } else if (query.has("hello")) {
+    if (query.get("hello")) {
+      const name = query.get("hello");
+      res.res.statusCode = 200;
+      res.statusMessage = "OK";
+      res.setHeader("Content-Type", "text/plain");
+      res.write = getUsers();
+      res.end(`Hello, ${name}`);
+      return;
+    } else {
+      res.statusCode = 400;
+      res.statusMessage = "OK";
+      res.setHeader("Content-Type", "text/plain");
+      res.write = getUsers();
+      res.end("Enter a name");
+      return;
+    }
+  } else if (myURL.pathname === "/favicon.ico") {
+    res.statusCode = 200;
+    res.statusMessage = "OK";
+    res.setHeader("Content-Type", "image/x-icon");
+    res.write = "favicon.ico";
+    res.end("favicon.ico");
+    return;
+  } else if (
+    !query.has("users") ||
+    !query.has("Hello") ||
+    !query.has("hello") ||
+    myURL.pathname !== "/favicon.ico"
+  ) {
+    res.statusCode = 500;
+    res.statusMessage = "OK";
+    res.setHeader("Content-Type", "text/plain");
+    res.write = "";
+    res.end(null);
+    return;
+  } else {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    res.write("Hello, World!");
+    res.end("Hello World\n");
   }
-
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  res.write("bad");
-  res.end("Hello World\n");
 });
 
 server.listen(port, hostname, () => {
-  console.dir(path.join(__dirname, './data/users.js'));
   console.log(`Сервер запущен по адресу http://${hostname}:${port}/`);
 });
 
