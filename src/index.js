@@ -8,8 +8,10 @@ const port = 3003;
 const server = http.createServer((request, response) => {
   const url = new URL(request.url, `http://${hostname}`);
   const query = url.searchParams;
-  //   console.log(url);
-  //   console.log(url.searchParams);
+  const keys = url.searchParams.keys();
+  // console.log(url);
+  // console.log(url.searchParams);
+  // console.log(keys);
 
   if (query.has("hello")) {
     // если запрос на ?hello=<name>
@@ -45,9 +47,14 @@ const server = http.createServer((request, response) => {
   }
   // если переданы какие-либо другие параметры
   else {
-    response.statusCode = 500;
-    response.end();
-    return;
+    for (const key of keys) {
+      if (key !== "hello") {
+        response.statusCode = 500;
+        response.end();
+        return;
+      }
+      response.end();
+    }
   }
 });
 
