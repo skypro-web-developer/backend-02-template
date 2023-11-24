@@ -4,7 +4,9 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
 const userRouter = require("./routes/users");
+const bookRouter = require("./routes/books");
 const loggerOne = require("./middlewares/loggerOne");
 
 dotenv.config();
@@ -26,27 +28,17 @@ app.use(cors());
 app.use(loggerOne);
 app.use(bodyParser.json());
 
+app.use(userRouter);
+app.use(bookRouter);
+
 app.get("/", (request, response) => {
   response.status(200);
-  response.send("Library: users");
+  response.send("Library: users, books");
 });
 
 app.listen(PORT, () => {
   console.log(`Ссылка на сервер: ${API_URL}:${PORT}`);
 });
-
-app.use(userRouter);
-
-// app.post("/", (request, response) => {
-//   response.status(200);
-//   response.send("Hello from POST!");
-// });
-
-// app.get("/users/:id", (request, response) => {
-//   const { id } = request.params;
-//   response.status(200);
-//   response.send("User with id: ${id}");
-// });
 
 // homework1
 
