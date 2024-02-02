@@ -13,37 +13,45 @@ const server = http.createServer((request, response) => {
   const url = new URL(request.url, ipAddress);
   const userName = url.searchParams.get("hello");
 
-  if (request.url === `/?hello=<name>`) {
-    response.status = 200;
+  if (userName) {
+    response.statusCode = 200;
     response.statusMessage = "ok";
     response.header = "Content-Type: text/plain";
-    response.write(`Hello, <name>`);
+    response.write(`Hello, ${userName}.`);
     response.end();
-
     return;
   }
 
-  if (request.url === `?users`) {
-    response.status = 200;
+  if (request.url === "/?hello") {
+    response.statusCode = 400;
+    response.statusMessage = "Bad Request";
+    response.header = "Content-Type: text/plain";
+    response.write(`Enter a name`);
+    response.end();
+    return;
+  }
+
+  if (request.url === `/?users`) {
+    response.statusCode = 200;
     response.statusMessage = "ok";
     response.header = "Content-Type: application/json";
     response.write(getUsers());
     response.end();
-
     return;
   }
 
-  if (!request.url) {
-    response.status = 200;
+  if (request.url === "/") {
+    response.statusCode = 200;
     response.statusMessage = "ok";
     response.header = "Content-Type: text/plain";
     response.write(`Hello, World!`);
     response.end();
-
     return;
   }
 
-  response.status = 500;
+  response.statusCode = 500;
+  response.statusMessage = "Internal Server Error";
+  response.end();
 });
 
 server.listen(3003, () =>
