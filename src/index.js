@@ -1,6 +1,9 @@
 const http = require("http");
 const getUsers = require("./modules/users");
 
+const host = "http://127.0.0.1";
+const port = 3003;
+
 const server = http.createServer((request, response) => {
   // Написать обработчик запроса:
   // - Ответом на запрос `?hello=<name>` должна быть **строка** "Hello, <name>.", код ответа 200
@@ -54,6 +57,6 @@ const server = http.createServer((request, response) => {
   response.end();
 });
 
-server.listen(3003, () =>
-  console.log(`Сервер запущен по адресу http://127.0.0.1:3003`)
+server.listen(port, () =>
+  console.log(`Сервер запущен по адресу ${host + ":" + port}`)
 );
