@@ -12,7 +12,8 @@ const getUser = (request, response) => {
 };
 
 const updateUser = (request, response) => {
-  //Update user
+  response.statusCode = 201;
+  response.send(request);
 };
 
 const deleteUser = (request, response) => {
