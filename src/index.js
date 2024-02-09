@@ -2,13 +2,27 @@ const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const userRouter = require("./routes/users");
 const bookRouter = require("./routes/books");
 const logger = require("./middlewares/logger");
 
 dotenv.config();
 
-const { PORT = 3005, API_URL = "http://127.0.0.1" } = process.env;
+const {
+  PORT = 3005,
+  API_URL = "http://127.0.0.1",
+  NONGO_URL = "mongodb://127.0.0.1:27017/backend",
+} = process.env;
+
+mongoose
+  .connect(NONGO_URL)
+  .then(() => {
+    console.log("Connected to MongoDb");
+  })
+  .catch((error) => {
+    throw new Error(error);
+  });
 
 const app = express();
 
