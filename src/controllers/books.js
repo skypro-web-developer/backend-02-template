@@ -2,8 +2,10 @@ const { request, response } = require("express");
 const Book = require("../models/book");
 
 const getBooks = (request, response) => {
-  response.statusCode = 200;
-  response.send("There will be books");
+  return Book.find({}).then((books) => {
+    response.statusCode = 200;
+    response.send(books);
+  });
 };
 
 const getBook = (request, response) => {

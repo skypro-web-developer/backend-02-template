@@ -2,8 +2,10 @@ const { request, response } = require("express");
 const User = require("../models/user");
 
 const getUsers = (request, response) => {
-  response.statusCode = 200;
-  response.send("There will be users");
+  return User.find({}).then((users) => {
+    response.statusCode = 200;
+    response.send(users);
+  });
 };
 
 const getUser = (request, response) => {
