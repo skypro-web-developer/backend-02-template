@@ -10,8 +10,10 @@ const getBooks = (request, response) => {
 
 const getBook = (request, response) => {
   const { book_id } = request.params;
-  response.statusCode = 200;
-  response.send(`Book with ID ${book_id}`);
+  return Book.findById(book_id).then((book) => {
+    response.statusCode = 200;
+    response.send(book);
+  });
 };
 
 const createBook = (request, response) => {

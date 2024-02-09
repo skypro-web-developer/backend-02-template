@@ -10,8 +10,10 @@ const getUsers = (request, response) => {
 
 const getUser = (request, response) => {
   const { user_id } = request.params;
-  response.statusCode = 200;
-  response.send(`User with ID ${user_id}`);
+  return User.findById(user_id).then((user) => {
+    response.statusCode = 200;
+    response.send(user);
+  });
 };
 
 const createUser = (request, response) => {
