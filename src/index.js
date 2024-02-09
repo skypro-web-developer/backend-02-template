@@ -18,10 +18,10 @@ const {
 mongoose
   .connect(NONGO_URL)
   .then(() => {
-    console.log("Connected to MongoDb");
+    console.log(`Connected to MongoDb: ${NONGO_URL}`);
   })
   .catch((error) => {
-    throw new Error(error);
+    console.log(error);
   });
 
 const app = express();

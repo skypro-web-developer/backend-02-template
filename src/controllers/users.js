@@ -4,6 +4,11 @@ const User = require("../models/user");
 const getUsers = (request, response) => {
   return User.find({})
     .then((users) => {
+      if (!users) {
+        response.statusCode = 404;
+        return;
+      }
+
       response.statusCode = 200;
       response.send(users);
     })
@@ -17,6 +22,11 @@ const getUser = (request, response) => {
   const { user_id } = request.params;
   return User.findById(user_id)
     .then((user) => {
+      if (!user) {
+        response.statusCode = 404;
+        return;
+      }
+
       response.statusCode = 200;
       response.send(user);
     })
@@ -29,6 +39,11 @@ const getUser = (request, response) => {
 const createUser = (request, response) => {
   return User.create({ ...request.body })
     .then((user) => {
+      if (!user) {
+        response.statusCode = 404;
+        return;
+      }
+
       response.statusCode = 201;
       response.send(user);
     })
@@ -42,6 +57,11 @@ const updateUser = (request, response) => {
   const { user_id } = request.params;
   return User.findByIdAndUpdate(user_id, { ...request.body })
     .then((user) => {
+      if (!user) {
+        response.statusCode = 404;
+        return;
+      }
+
       response.statusCode = 201;
       response.send(user);
     })
