@@ -63,7 +63,7 @@ const updateUser = (request, response) => {
       }
 
       response.statusCode = 201;
-      response.send(user);
+      response.send("Информация о пользователе успешно изменена");
     })
     .catch((error) => {
       response.statusCode = 500;

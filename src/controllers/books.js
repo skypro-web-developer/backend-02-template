@@ -63,7 +63,7 @@ const updateBook = (request, response) => {
       }
 
       response.statusCode = 201;
-      response.send(book);
+      response.send("Информация о книге успешно изменена");
     })
     .catch((error) => {
       response.statusCode = 500;
