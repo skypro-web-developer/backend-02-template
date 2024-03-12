@@ -14,5 +14,11 @@ const delUser = (req, res) => {
     User.findByIdAndDelete(user_id)
     .then((user)=> {res.status(200).send(user)})
 }
+const getUser = (req, res) => {
+    const {user_id} = req.params
+    User.findByIdAndDelete(user_id)
+    .then((user)=> {res.status(200).send(user)})
+}
 
-module.exports = {getUsers, addUsers, delUser}
+
+module.exports = {getUsers, addUsers, delUser, getUser}
