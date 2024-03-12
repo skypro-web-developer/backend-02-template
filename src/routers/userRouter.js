@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const {getUsers, addUsers, delUser, getUser, updateUser} = require("../controllers/controllers")
+const {getUsers, addUsers, delUser, getUser, updateUser} = require("../controllers/userControllers.js")
 const logerUrl = require("../middleware/loger")
 
 
