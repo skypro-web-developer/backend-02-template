@@ -16,9 +16,15 @@ const delUser = (req, res) => {
 }
 const getUser = (req, res) => {
     const {user_id} = req.params
-    User.findByIdAndDelete(user_id)
+    User.findById(user_id)
+    .then((user)=> {res.status(200).send(user)})
+}
+const updateUser = (req, res) => {
+    const data = req.body
+    const {user_id} = req.params
+    User.findByIdAndUpdate(user_id, data)
     .then((user)=> {res.status(200).send(user)})
 }
 
 
-module.exports = {getUsers, addUsers, delUser, getUser}
+module.exports = {getUsers, addUsers, delUser, getUser,updateUser}
