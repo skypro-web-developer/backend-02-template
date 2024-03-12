@@ -26,10 +26,10 @@ const updateUser = (req, res) => {
     .then((user)=> {res.status(200).send(user)})
 }
 const getBooksUserById = (req, res) => {
-    const {user_id} = req.params
-    User.findById(user_id)
-    .then((user)=> {res.status(200).send(user.books)})
-}
-
+  const { user_id } = req.params;
+  User.findById(user_id).then((user) => {
+    res.status(200).send(user.books);
+  });
+};
 
 module.exports = {getUsers, addUsers, delUser, getUser,updateUser, getBooksUserById}
