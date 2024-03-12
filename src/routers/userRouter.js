@@ -5,7 +5,7 @@ const logerUrl = require("../middleware/loger")
 
 router.use(logerUrl)
 
-router.get("/", getUsers)
+router.get("/users", getUsers)
 router.post("/users", addUsers)
 
 module.exports = router
