@@ -1,5 +1,5 @@
-const logerUrl = (req, res, next) => {
-     console.log(`Запрос на адрес${req.originalUrl}`);
+const logerUrl = (request, response, next) => {
+     console.log(`Запрос на адрес${request.originalUrl}`);
     next()
 }
 

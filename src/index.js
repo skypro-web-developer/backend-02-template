@@ -12,7 +12,8 @@ mongoose.connect("mongodb://localhost:27017/mydb")
 .catch((err) => console.log(err.message))
 
 
-app.use(userRouter)
+
 app.use(cors())
 app.use(bodyParser.json())
+app.use(userRouter)
 app.listen(port, () => console.log(`Сервер запущен на ${url}:${port}`))
