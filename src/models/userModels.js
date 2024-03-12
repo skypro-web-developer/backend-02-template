@@ -16,9 +16,22 @@ const userShema = new mongoose.Schema({
         required: true,
         minlength: 5,
       },
-      books: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'books' }],
-        default: [],
-      }
+      books: [{
+        title: {
+          type: String,
+          required: true,
+          minlength: 2,
+        },
+        author: {
+          type: String,
+          required: true,
+          minlength: 2,
+        },
+        year: {
+          type: Number,
+          required: true,
+        },
+      }],
+      
 })
 module.exports = mongoose.model("user", userShema)
