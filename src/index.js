@@ -1,12 +1,26 @@
-const http = require('http');
+const express = require("express");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const app = express();
+const userRouter = require("./routers/userRouter");
+const bookRouter = require("./routers/bookRouter");
 
-const server = http.createServer((request, response) => {
+dotenv.config();
+const {
+  port = 3005,
+  url = "127.0.0.1",
+  mongo_url = "mongodb://localhost:27017/mydb",
+} = process.env;
 
-    // Написать обработчик запроса:
-    // - Ответом на запрос `?hello=<name>` должна быть **строка** "Hello, <name>.", код ответа 200
-    // - Если параметр `hello` указан, но не передано `<name>`, то ответ **строка** "Enter a name", код ответа 400
-    // - Ответом на запрос `?users` должен быть **JSON** с содержимым файла `data/users.json`, код ответа 200
-    // - Если никакие параметры не переданы, то ответ **строка** "Hello, World!", код ответа 200
-    // - Если переданы какие-либо другие параметры, то пустой ответ, код ответа 500
+mongoose
+  .connect(mongo_url)
+  .then(() => console.log("Подключение к БД"))
+  .catch((err) => console.log(err.message));
 
-});
+app.use(cors());
+app.use(bodyParser.json());
+app.use(userRouter);
+app.use(bookRouter);
+app.listen(port, () => console.log(`Сервер запущен на ${url}:${port}`));
