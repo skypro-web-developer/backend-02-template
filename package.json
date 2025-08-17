@@ -5,8 +5,21 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
-  "author": ""
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Erlan1502/backend-02-template.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Erlan1502/backend-02-template/issues"
+  },
+  "homepage": "https://github.com/Erlan1502/backend-02-template#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
