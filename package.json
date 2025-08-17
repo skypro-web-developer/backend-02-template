@@ -5,8 +5,8 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "dev": "",
-    "start": ""
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "author": ""
 }
