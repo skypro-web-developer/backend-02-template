@@ -5,8 +5,17 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "dev": "",
-    "start": ""
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
-  "author": ""
+  "author": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }

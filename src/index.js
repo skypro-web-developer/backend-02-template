@@ -1,12 +1,24 @@
-const http = require('http');
+require("dotenv").config();
 
-const server = http.createServer((request, response) => {
+const mongoose = require("mongoose");
+const app = require("./app");
 
-    // Написать обработчик запроса:
-    // - Ответом на запрос `?hello=<name>` должна быть **строка** "Hello, <name>.", код ответа 200
-    // - Если параметр `hello` указан, но не передано `<name>`, то ответ **строка** "Enter a name", код ответа 400
-    // - Ответом на запрос `?users` должен быть **JSON** с содержимым файла `data/users.json`, код ответа 200
-    // - Если никакие параметры не переданы, то ответ **строка** "Hello, World!", код ответа 200
-    // - Если переданы какие-либо другие параметры, то пустой ответ, код ответа 500
+const PORT = process.env.PORT || 3005;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-});
+const startServer = async () => {
+  try {
+    await mongoose.connect(MONGODB_URI);
+
+    console.log("MongoDB connected");
+
+    app.listen(PORT, "127.0.0.1", () => {
+      console.log(`Server started at http://127.0.0.1:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
